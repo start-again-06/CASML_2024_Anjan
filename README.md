@@ -66,9 +66,13 @@ After training, the model generates predictions on test data and saves the resul
 📂 Directory Structure
 
 ├── main.py                 # Main script for training and inference
+
 ├── requirements.txt        # Required dependencies
+
 ├── README.md               # Project documentation
+
 ├── data/                   # Folder for dataset (test and submission files)
+
 └── models/                 # Folder for trained models
 
 📜 License
