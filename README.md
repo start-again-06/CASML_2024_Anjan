@@ -43,16 +43,16 @@ u(x, y) = 0 \quad \text{on the boundary}
 ---
 
 ## Forcing Function
-The source term \( f(x, y) \) contains exponential boundary layers and stiff terms:
+The forcing function \( f(x, y) \) is defined as:
+
 $$
-\[
 \begin{aligned}
-f(x, y) =\;& 2\varepsilon(-x + e^{2(x-1)/\varepsilon}) + xy^2 + 6xy - x e^{3(y-1)/\varepsilon} \\
-&- y^2 e^{2(x-1)/\varepsilon} + 2y^2 - 6y e^{2(x-1)/\varepsilon} \\
-&- 2e^{3(y-1)/\varepsilon} + e^{(2x + 3y - 5)/\varepsilon}
+f(x, y) =\;& 2\varepsilon\Big(-x + e^{2(x-1)/\varepsilon}\Big) + xy^2 + 6xy - x \, e^{3(y-1)/\varepsilon} \\
+&- y^2 \, e^{2(x-1)/\varepsilon} + 2y^2 - 6y \, e^{2(x-1)/\varepsilon} \\
+&- 2 \, e^{3(y-1)/\varepsilon} + e^{(2x + 3y - 5)/\varepsilon}
 \end{aligned}
-\]
 $$
+
 ---
 
 ## System Design
