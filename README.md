@@ -22,11 +22,11 @@ The implementation demonstrates the complete PINN workflow: domain sampling, aut
 ## Problem Definition
 
 ### Governing Equation
-The network approximates the solution \( u(x, y) \) of the PDE:
+The PDE solved by the model is:
+
 $$
-\[
--\varepsilon (\nabla^2 u) + 2 \frac{\partial u}{\partial x} + 3 \frac{\partial u}{\partial y} = f(x, y)
-\]$$
+-\varepsilon \, \nabla^2 u + 2 \frac{\partial u}{\partial x} + 3 \frac{\partial u}{\partial y} = f(x, y)
+$$
 
 where:
 - $$\( \varepsilon \)$$ is a small diffusion coefficient
