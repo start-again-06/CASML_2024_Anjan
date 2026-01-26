@@ -1,80 +1,176 @@
- CASML_2024
- 
-⚡ Physics-Informed Neural Network (PINN) for Solving PDEs
+# Physics-Informed Neural Network (PINN) for 2D Convection–Diffusion PDE
 
-This repository contains a TensorFlow-based implementation of a Physics-Informed Neural Network (PINN) to solve a partial differential equation (PDE). The model is trained to approximate the solution of the PDE using interior and boundary conditions.
+## Overview
+This project implements a **Physics-Informed Neural Network (PINN)** using **TensorFlow** to solve a **2D steady-state convection–diffusion partial differential equation** on a unit square domain.  
+The model learns the solution by minimizing the governing PDE residual and enforcing boundary conditions, without requiring labeled solution data.
 
-📌 Table of Contents
+The implementation demonstrates the complete PINN workflow: domain sampling, automatic differentiation–based residual computation, constrained training, and inference on unseen test points.
 
-📖 Introduction
+---
 
-🛠 Requirements
+## Features
+- Physics-Informed Neural Network (PINN) formulation
+- Solves a 2D convection–diffusion PDE on a unit square
+- Automatic differentiation using TensorFlow `GradientTape`
+- Interior and boundary point sampling
+- Dirichlet boundary condition enforcement
+- Custom loss combining PDE residual and boundary loss
+- CSV-based inference and submission generation
 
-📥 Installation
+--
 
-🚀 Usage
+## Problem Definition
 
-📊 Training the Model
+### Governing Equation
+The network approximates the solution \( u(x, y) \) of the PDE:
 
-📈 Generating Predictions
+\[
+-\varepsilon (\nabla^2 u) + 2 \frac{\partial u}{\partial x} + 3 \frac{\partial u}{\partial y} = f(x, y)
+\]
 
-📂 Directory Structure
+where:
+- \( \varepsilon \) is a small diffusion coefficient
+- \( f(x, y) \) is a known forcing function
+- Domain: \( (x, y) \in [0, 1] \times [0, 1] \)
 
-📜 License
+---
 
-📖 Introduction
+### Boundary Condition
+\[
+u(x, y) = 0 \quad \text{on the boundary}
+\]
 
-Physics-Informed Neural Networks (PINNs) are neural networks trained to satisfy physical laws described by differential equations. This implementation solves a PDE using a neural network and evaluates losses based on both interior points and boundary conditions.
+---
 
-🛠 Requirements
+## Forcing Function
+The source term \( f(x, y) \) contains exponential boundary layers and stiff terms:
 
-Make sure you have the following dependencies installed:
+\[
+\begin{aligned}
+f(x, y) =\;& 2\varepsilon(-x + e^{2(x-1)/\varepsilon}) + xy^2 + 6xy - x e^{3(y-1)/\varepsilon} \\
+&- y^2 e^{2(x-1)/\varepsilon} + 2y^2 - 6y e^{2(x-1)/\varepsilon} \\
+&- 2e^{3(y-1)/\varepsilon} + e^{(2x + 3y - 5)/\varepsilon}
+\end{aligned}
+\]
 
-[pip install tensorflow numpy matplotlib pandas](url)
+---
 
-📥 Installation
+## System Design
 
-Clone this repository and navigate to the project directory:
+### High-Level Architecture
 
-[git clone https://github.com/your-username/pinn-pde-solver.git
-cd pinn-pde-solver](url)
+| Stage | Description |
+|------|------------|
+| Domain Sampling | Samples interior and boundary points |
+| PINN Model | Fully-connected neural network |
+| PDE Loss | Enforces governing equation |
+| Boundary Loss | Enforces Dirichlet conditions |
+| Training Loop | Gradient-based optimization |
+| Inference Module | Predicts solution on test data |
+| Submission Generator | Outputs CSV predictions |
 
-🚀 Usage
+---
 
-Run the main script to train the model:
+## Component Breakdown
 
-[python main.py](url)
+### 1. Domain Sampling
+- **Interior points:** Uniform random sampling inside the domain
+- **Boundary points:** Uniform sampling along all four edges
 
-📊 Training the Model
+N_interior = 4000
+N_boundary = 400
 
-The model is trained using:
+## Neural Network Architecture
+- Fully-connected feedforward network  
+- Activation function: `tanh`  
+- Input: `(x, y)`  
+- Output: scalar solution `u(x, y)`  
 
-Interior points: Sampled from within the domain
+## Physics-Informed Loss Functions
 
-Boundary points: Sampled along the domain boundary
+### PDE Residual Loss
+- Uses second-order derivatives via automatic differentiation  
+- Penalizes violations of the governing PDE  
 
-Loss function: Enforces the PDE and boundary conditions
+### Boundary Condition Loss
+- Enforces zero Dirichlet boundary condition  
+- Mean squared error between predicted and exact boundary values  
 
-The model consists of a feedforward neural network with hidden layers using tanh activation functions.
+### Total Loss
+\[
+\mathcal{L} = \mathcal{L}_{PDE} + \beta \mathcal{L}_{BC}
+\]
 
-📈 Generating Predictions
+## Training Engine
+- Optimizer: Adam  
+- Learning rate: `0.01`  
+- Epochs: `1000`  
+- Periodic loss logging  
 
-After training, the model generates predictions on test data and saves the results to a CSV file:
+## Submission Pipeline
+- Load test coordinates  
+- Predict solution using trained PINN  
+- Save predictions to CSV  
 
-[create_submission(model, test_path, submission_path)](url)
+---
 
-📂 Directory Structure
+## Configuration Parameters
 
-├── main.py                 # Main script for training and inference
+| Parameter | Value |
+|---------|-------|
+| Domain | `[0,1] × [0,1]` |
+| Diffusion Coefficient | `eps = 1e-4` |
+| Interior Points | `4000` |
+| Boundary Points | `400` |
+| Epochs | `1000` |
+| Learning Rate | `0.01` |
+| Boundary Weight | `beta = 1.0` |
 
-├── requirements.txt        # Required dependencies
+---
 
-├── README.md               # Project documentation
+## Design Principles
+- **Physics-guided learning:** No labeled solution data required  
+- **Modularity:** Clear separation of PDE, boundary, and training logic  
+- **Numerical stability:** Explicit control over diffusion stiffness  
+- **Reproducibility:** Deterministic architecture and sampling strategy  
 
-├── data/                   # Folder for dataset (test and submission files)
+---
 
-└── models/                 # Folder for trained models
+## Scalability and Extensions
+- Time-dependent PDEs  
+- Coupled or multi-physics systems  
+- Adaptive sampling near boundary layers  
+- Higher-order PDEs  
+- GPU acceleration  
+- Integration with OT-PINNs or KAN-based PINNs  
 
-📜 License
+---
 
-This project is licensed under the MIT License. Feel free to modify and use it for your work.
+## Constraints and Limitations
+- Steady-state PDE only  
+- Fixed rectangular domain  
+- Dirichlet boundary conditions only  
+- No adaptive mesh refinement  
+
+---
+
+## Dependencies
+- Python 3.8+  
+- tensorflow  
+- numpy  
+- pandas  
+- matplotlib  
+
+---
+
+## Key Takeaways
+- PINNs can solve stiff PDEs without labeled data  
+- Automatic differentiation enables exact PDE residual computation  
+- Boundary condition enforcement is critical for convergence  
+- Neural solvers scale naturally to higher-dimensional problems  
+
+---
+
+## License
+This project is intended for **educational and research use**.  
+Please cite relevant Physics-Informed Neural Network literature if used in academic work.
