@@ -19,8 +19,8 @@ N_interior = 4000
 N_boundary = 400     
 
 
-test_path = " USER_LOCATION "
-submission_path = " USER LOCATION "
+test_path = "file location from user"
+submission_path = "file location from user"
 
 
 def f(x, y):
