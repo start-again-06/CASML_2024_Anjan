@@ -23,13 +23,13 @@ The implementation demonstrates the complete PINN workflow: domain sampling, aut
 
 ### Governing Equation
 The network approximates the solution \( u(x, y) \) of the PDE:
-
+$$
 \[
 -\varepsilon (\nabla^2 u) + 2 \frac{\partial u}{\partial x} + 3 \frac{\partial u}{\partial y} = f(x, y)
-\]
+\]$$
 
 where:
-- \( \varepsilon \) is a small diffusion coefficient
+- $$\( \varepsilon \)$$ is a small diffusion coefficient
 - \( f(x, y) \) is a known forcing function
 - Domain: \( (x, y) \in [0, 1] \times [0, 1] \)
 
@@ -44,7 +44,7 @@ u(x, y) = 0 \quad \text{on the boundary}
 
 ## Forcing Function
 The source term \( f(x, y) \) contains exponential boundary layers and stiff terms:
-
+$$
 \[
 \begin{aligned}
 f(x, y) =\;& 2\varepsilon(-x + e^{2(x-1)/\varepsilon}) + xy^2 + 6xy - x e^{3(y-1)/\varepsilon} \\
@@ -52,7 +52,7 @@ f(x, y) =\;& 2\varepsilon(-x + e^{2(x-1)/\varepsilon}) + xy^2 + 6xy - x e^{3(y-1
 &- 2e^{3(y-1)/\varepsilon} + e^{(2x + 3y - 5)/\varepsilon}
 \end{aligned}
 \]
-
+$$
 ---
 
 ## System Design
