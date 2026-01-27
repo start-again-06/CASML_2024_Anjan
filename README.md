@@ -104,6 +104,34 @@ $$
 \mathcal{L} = \mathcal{L}_{\text{PDE}} + \beta \, \mathcal{L}_{\text{BC}}
 $$
 
+#### PDE Residual Loss
+
+The PDE loss is computed as the mean squared residual of the governing equation evaluated at \(N_f\) interior collocation points:
+
+$$
+\mathcal{L}_{\text{PDE}} = \frac{1}{N_f} \sum_{i=1}^{N_f}
+\left\| \mathcal{R}\big(u_\theta(\mathbf{x}_i)\big) \right\|^2
+$$
+
+where \(\mathcal{R}(\cdot)\) denotes the differential operator of the governing PDE and \(u_\theta\) is the neural network approximation.
+
+#### Boundary Condition Loss
+
+The boundary loss enforces boundary conditions at \(N_b\) boundary points:
+
+$$
+\mathcal{L}_{\text{BC}} = \frac{1}{N_b} \sum_{j=1}^{N_b}
+\left\| u_\theta(\mathbf{x}_j) - u_{\text{BC}}(\mathbf{x}_j) \right\|^2
+$$
+
+#### Numerical Implication
+
+The scalar weight \(\beta\) balances the contribution of boundary enforcement relative to the PDE residual.  
+If \(\beta \ll 1\), boundary conditions may be weakly enforced.  
+If \(\beta \gg 1\), optimization may overly prioritize boundary satisfaction at the expense of interior accuracy.  
+In practice, \(\beta\) is treated as a tunable or adaptive hyperparameter to ensure stable and physically consistent convergence.
+
+
 ## Training Engine
 - Optimizer: Adam  
 - Learning rate: `0.01`  
