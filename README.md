@@ -100,11 +100,9 @@ N_boundary = 400
 
 The training objective is defined as a weighted sum of the physics-based residual loss and the boundary condition loss:
 
-\[
+$$
 \mathcal{L} = \mathcal{L}_{\text{PDE}} + \beta \, \mathcal{L}_{\text{BC}}
-\]
-
-where \(\mathcal{L}_{\text{PDE}}\) enforces the governing PDE, \(\mathcal{L}_{\text{BC}}\) enforces boundary conditions, and \(\beta\) controls the relative importance of boundary constraints.
+$$
 
 ## Training Engine
 - Optimizer: Adam  
