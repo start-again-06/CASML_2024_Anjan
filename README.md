@@ -1,7 +1,7 @@
 # Physics-Informed Neural Network (PINN) for 2D Convection–Diffusion PDE
 
 ## Overview
-This project implements a **Physics-Informed Neural Network (PINN)** using **TensorFlow** to solve a **2D steady-state convection–diffusion partial differential equation** on a unit square domain.  
+This project implements a *Physics-Informed Neural Network (PINN)* using *TensorFlow* to solve a *2D steady-state convection–diffusion partial differential equation* on a unit square domain.  
 The model learns the solution by minimizing the governing PDE residual and enforcing boundary conditions, without requiring labeled solution data.
 
 The implementation demonstrates the complete PINN workflow: domain sampling, automatic differentiation–based residual computation, constrained training, and inference on unseen test points.
@@ -77,8 +77,8 @@ $$
 - **Interior points:** Uniform random sampling inside the domain
 - **Boundary points:** Uniform sampling along all four edges
 
-N_interior = 4000
-N_boundary = 400
+$\(N_interior\)$ = 4000
+$\(N_boundary\)$ = 400
 
 ## Neural Network Architecture
 - Fully-connected feedforward network  
