@@ -30,8 +30,8 @@ $$
 
 where:
 - $$\( \varepsilon \)$$ is a small diffusion coefficient
-- \( f(x, y) \) is a known forcing function
-- Domain: \( (x, y) \in [0, 1] \times [0, 1] \)
+- $\( f(x, y) \)$ is a known forcing function
+- Domain: $\( (x, y) \in [0, 1] \times [0, 1] \)$
 
 ---
 
@@ -106,7 +106,7 @@ $$
 
 #### PDE Residual Loss
 
-The PDE loss is computed as the mean squared residual of the governing equation evaluated at \(N_f\) interior collocation points:
+The PDE loss is computed as the mean squared residual of the governing equation evaluated at $\(N_f\)$ interior collocation points:
 
 $$
 \mathcal{L}_{\text{PDE}} = \frac{1}{N_f} \sum_{i=1}^{N_f}
